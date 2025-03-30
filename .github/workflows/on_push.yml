@@ -10,14 +10,15 @@ on:
 
 env:
   ROS_DISTRO: humble
+  RUNNER_NAME: ubuntu-22.04
 
 jobs:
   build-and-test:
     name: 🔨 Build & Test
-    runs-on: ubuntu-latest
+    runs-on: ${{ env.RUNNER_NAME }}
     steps:
       - uses: actions/checkout@v3
       - uses: ros-tooling/setup-ros@v0.7
         with:
-          required-ros-distributions: humble
+          required-ros-distributions: ${{ env.ROS_DISTRO }}
       - uses: ./.github/actions/build-and-test

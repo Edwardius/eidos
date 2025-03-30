@@ -7,12 +7,13 @@ on:
 
 env:
   ROS_DISTRO: humble
+  RUNNER_NAME: ubuntu-22.04
   DEBIAN_FRONTEND: noninteractive
 
 jobs:
   validate-tag:
     name: ✅ Validate tag and extract version info
-    runs-on: ubuntu-latest
+    runs-on: ${{ env.RUNNER_NAME }}
     outputs:
       version: ${{ steps.extract.outputs.version }}
       revision: ${{ steps.extract.outputs.revision }}
@@ -63,7 +64,7 @@ jobs:
 
   build-and-test:
     name: 🔨 Build & Test
-    runs-on: ubuntu-latest
+    runs-on: ${{ env.RUNNER_NAME }}
     needs: validate-tag
     steps:
       - uses: actions/checkout@v3
@@ -74,7 +75,7 @@ jobs:
 
   release:
     name: 🚀 Package & Upload to S3
-    runs-on: ubuntu-latest
+    runs-on: ${{ env.RUNNER_NAME }}
     needs: [validate-tag, build-and-test]
     env:
       VERSION: ${{ needs.validate-tag.outputs.version }}
