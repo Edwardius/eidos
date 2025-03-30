@@ -94,13 +94,13 @@ jobs:
           sudo apt update
           sudo apt install -y \
             python3-colcon-common-extensions \
+            python3-catkin-pkg \
+            python3-bloom \
             build-essential \
             fakeroot \
             dpkg-dev \
             dpkg-scanpackages \
             devscripts \
-            libcatch2-dev \
-            bloom \
             gnupg \
             apt-utils \
             xmlstarlet \

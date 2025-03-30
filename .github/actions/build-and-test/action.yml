@@ -11,10 +11,6 @@ runs:
         sudo apt install -y python3-colcon-common-extensions \
                             python3-pip \
                             build-essential \
-                            libcatch2-dev \
-                            fakeroot \
-                            dpkg-dev \
-                            bloom
 
     - name: 🧱 Build workspace
       shell: bash
