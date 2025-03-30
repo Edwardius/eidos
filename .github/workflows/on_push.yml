@@ -13,7 +13,7 @@ env:
 jobs:
   build-and-test:
     name: 🔨 Build & Test
-    runs-on: ${{ env.RUNNER_NAME }}
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - uses: ros-tooling/setup-ros@v0.7
