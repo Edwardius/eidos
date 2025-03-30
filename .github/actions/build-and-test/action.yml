@@ -19,7 +19,7 @@ runs:
     - name: ✅ Run tests
       shell: bash
       run: |
-        colcon test --event-handlers console_cohesion+
+        colcon test --merge-install --event-handlers console_cohesion+
         colcon test-result --verbose
 
     - name: 🗃️ Upload test logs as artifacts
