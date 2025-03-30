@@ -1,4 +1,4 @@
-name: Release Eidos
+name: 🚀 Release Eidos
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
       revision: ${{ steps.extract.outputs.revision }}
 
     steps:
-      - name: Validate tag format
+      - name: 🧪 Validate tag format
         run: |
           TAG="${GITHUB_REF_NAME#refs/tags/}"
           if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-r[0-9]+)?$ ]]; then
@@ -29,7 +29,7 @@ jobs:
           fi
           echo "✅ Tag format OK: $TAG"
 
-      - name: Extract version, revision and validate all package.xml
+      - name: 📦 Extract version, revision and check package.xmls
         id: extract
         run: |
           set -euo pipefail
@@ -74,7 +74,7 @@ jobs:
       - uses: ./.github/actions/build-and-test
 
   release:
-    name: 🚀 Package & Upload to S3
+    name: 📦 Package & ☁️ Upload to S3
     runs-on: ${{ env.RUNNER_NAME }}
     needs: [validate-tag, build-and-test]
     env:
@@ -82,15 +82,15 @@ jobs:
       REVISION: ${{ needs.validate-tag.outputs.revision }}
 
     steps:
-      - name: Checkout repo
+      - name: 🔄 Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup ROS 2
+      - name: 🛠 Setup ROS 2
         uses: ros-tooling/setup-ros@v0.7
         with:
           required-ros-distributions: ${{ env.ROS_DISTRO }}
 
-      - name: Install dependencies
+      - name: 🧰 Install packaging dependencies
         run: |
           sudo apt update
           sudo apt install -y \
@@ -107,16 +107,16 @@ jobs:
             xmlstarlet \
             awscli
 
-      - name: Update Debian changelog
+      - name: 📝 Update Debian changelog
         run: |
           dch --create --package ros-${{ env.ROS_DISTRO }}-eidos \
               --newversion "${VERSION}-${REVISION}" \
               "Auto-generated release for Eidos"
 
-      - name: Build workspace
+      - name: 🧱 Build package
         run: colcon build --merge-install --packages-select eidos
 
-      - name: Generate .deb package
+      - name: 📦 Generate .deb package
         run: |
           mkdir -p apt_repo/dists/latest/main/binary-all
           mkdir -p apt_repo/dists/$VERSION/main/binary-all
@@ -126,7 +126,7 @@ jobs:
           cp apt_repo/dists/latest/main/binary-all/*.deb \
              apt_repo/dists/$VERSION/main/binary-all/
 
-      - name: Generate APT metadata
+      - name: 📜 Generate APT metadata
         run: |
           for version in latest "$VERSION"; do
             BIN_DIR="apt_repo/dists/$version/main/binary-all"
@@ -148,7 +148,7 @@ jobs:
             echo "Description: Eidos ROS 2 SLAM System"  >> "$RELEASE_DIR/Release"
           done
 
-      - name: Upload APT repo to S3
+      - name: ☁️ Upload APT repo to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
         with:
           args: --acl public-read --follow-symlinks

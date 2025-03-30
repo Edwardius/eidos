@@ -4,7 +4,7 @@ description: Common build and test logic for Eidos
 runs:
   using: "composite"
   steps:
-    - name: Install dependencies
+    - name: 📦 Install dependencies
       shell: bash
       run: |
         sudo apt update
@@ -16,17 +16,17 @@ runs:
                             dpkg-dev \
                             bloom
 
-    - name: Build workspace
+    - name: 🧱 Build workspace
       shell: bash
       run: colcon build --merge-install
 
-    - name: Run tests
+    - name: ✅ Run tests
       shell: bash
       run: |
         colcon test --event-handlers console_cohesion+
         colcon test-result --verbose
 
-    - name: Upload test logs as artifacts
+    - name: 🗃️ Upload test logs as artifacts
       uses: actions/upload-artifact@v3
       with:
         name: colcon-test-logs
