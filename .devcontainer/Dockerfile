@@ -1,4 +1,5 @@
-FROM ros:humble
+ARG BASE_IMAGE
+FROM $BASE_IMAGE
 
 # Basic build tools
 RUN apt update && apt install -y \
