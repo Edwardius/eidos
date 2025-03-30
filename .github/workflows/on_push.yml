@@ -8,7 +8,6 @@ on:
 
 env:
   ROS_DISTRO: humble
-  RUNNER_NAME: ubuntu-22.04
 
 jobs:
   build-and-test:
